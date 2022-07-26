@@ -2,11 +2,17 @@ import { Component } from 'react';
 
 export class Searchbar extends Component {
   state = {
-		searce: '',
+		query: '',
 	}
-	// Searchbar.proptypes = {
-	// 	onSubmit: 
-	// }
+	
+	handeleChange = event => {
+		this.setState({query: event.target.value})
+	}
+	handelSubmit = event => {
+		event.preventDefault();
+		const { onSubmit } = this.props;
+		onSubmit(this.state.query)
+	}
 	render() {
     return (
       <header className="Searchbar">
@@ -14,12 +20,13 @@ export class Searchbar extends Component {
           <button
             type="submit"
             className="SearchForm-button"
-            // onClick={onSubmit}
+            onClick={this.handelSubmit}
           >
             <span className="SearchForm-button-label">Search</span>
           </button>
 
           <input
+						onChange={this.handeleChange}
             className="SearchForm-input"
             type="text"
             autocomplete="off"
@@ -28,6 +35,6 @@ export class Searchbar extends Component {
           />
         </form>
       </header>
-    );
+    )
   }
 }
