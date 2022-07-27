@@ -1,16 +1,16 @@
 import { Component } from "react";
+import PropTypes from 'prop-types';
+
 export class Modal extends Component {
 
 	componentDidMount() {
 		window.addEventListener('keydown', this.handelCloseModal);
 		window.addEventListener('click', this.handelCloseModal);
-
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener('keydown', this.handelCloseModal);
 		window.removeEventListener('click', this.handelCloseModal);
-
 	}
 	
 	handelCloseModal = (event) => {
@@ -29,3 +29,7 @@ export class Modal extends Component {
   	);
 	}
 };
+Modal.propsTypes = {
+	onClose: PropTypes.func.isRequired,
+	imgBigItem: PropTypes.arrayOf(PropTypes.string)
+}

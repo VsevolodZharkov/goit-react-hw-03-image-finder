@@ -6,6 +6,7 @@ import { Button } from './components/Button/Button';
 import { STATUS } from './components/Status/Status';
 import { ToastContainer } from 'react-toastify';
 import { Fetch } from 'components/Fecth/Fetch';
+import PropTypes from 'prop-types';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -85,4 +86,8 @@ export class App extends Component {
       </div>
     );
   }
+}
+App.propsTypes = {
+	query: PropTypes.string.isRequired,
+	images: PropTypes.arrayOf(PropTypes.object.isRequired)
 }

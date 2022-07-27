@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 import ButtonModul from './Button.module.css'
 export const Button = ({handelLoadMore}) => {
 	return (
@@ -8,4 +8,7 @@ export const Button = ({handelLoadMore}) => {
 		  </button>
 		</div>
 	)
+}
+Button.propsTypes = {
+	handelLoadMore: PropTypes.func.isRequired
 }
