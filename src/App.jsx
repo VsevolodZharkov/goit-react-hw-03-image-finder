@@ -89,5 +89,6 @@ export class App extends Component {
 }
 App.propsTypes = {
 	query: PropTypes.string.isRequired,
-	images: PropTypes.arrayOf(PropTypes.object.isRequired)
+	images: PropTypes.arrayOf(PropTypes.object.isRequired),
+	status: PropTypes.string.isRequired,
 }
