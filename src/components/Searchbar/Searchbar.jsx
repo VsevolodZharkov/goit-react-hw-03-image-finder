@@ -29,8 +29,8 @@ export class Searchbar extends Component {
 						onChange={this.handeleChange}
             className="SearchForm-input"
             type="text"
-            autocomplete="off"
-            autofocus
+            // autocomplete="off"
+            // autofocus
             placeholder="Search images and photos"
           />
         </form>
