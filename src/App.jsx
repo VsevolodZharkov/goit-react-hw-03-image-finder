@@ -2,10 +2,9 @@ import { Searchbar } from './components/Searchbar/Searchbar';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Modal } from './components/Modal/Modal';
 import { Component } from 'react';
-import { STATUS } from './components/Status/Status';
-// import { Spiner } from './components/Loader/Loader';
 import { Button } from './components/Button/Button';
-// import { ToastContainer, toast } from 'react-toastify';
+import { STATUS } from './components/Status/Status';
+import { ToastContainer } from 'react-toastify';
 import { Fetch } from 'components/Fecth/Fetch';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,17 +33,16 @@ export class App extends Component {
     this.setState(prevDtate => ({ isOpen: !prevDtate.isOpen }));
   };
 
-  // getImages = (id) => {
-  // 	this.setState({id})
-  // }
   handelImagesTake = () => {
     const { getImages } = this.props;
     getImages(this.state.images);
   };
+	
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
       this.setState({ status: STATUS.Loading });
-      Fetch(this.state.query, this.state.page)
+
+      Fetch(this.state.query, this.setState(({page: 1})))
         .then(data => {
           this.setState({
             images: data.hits,
@@ -54,49 +52,32 @@ export class App extends Component {
         })
         .catch(() => {
           this.setState({ status: STATUS.Error });
-        });
+        })
     }
   }
 
   handelLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
 
-    Fetch(this.state.query, this.state.page).then(responce => {
+    Fetch(this.state.query, this.state.page + 1)
+		.then(responce => {
       this.setState(prevState => ({
         images: [...prevState.images, ...responce.hits],
-      }));
+      }))
+			.catch(() => {
+				this.setState({ status: STATUS.Error });
+			});
     });
   };
 
   render() {
-    const { images, query, page, totalHits, isOpen } = this.state;
-    // const { images, status, page isOpen,} = this.state;
-    console.log(page);
-    console.log(query);
-    console.log(images);
-    console.log(totalHits >= page * 12);
-    // if (status === STATUS.Idle) {
-    //   return toast('Enter which photos you are interested in.');
-    // }
+    const { page, totalHits, isOpen } = this.state;
 
-    // if (status === STATUS.Loading) {
-    //   return (
-    //     <>
-    //       <Spiner />
-    //     </>
-    //   );
-    // }
-
-    // if (status === STATUS.Error) {
-    //   return <>{toast.error('Error')}</>;
-    // }
     return (
       <div>
         <Searchbar onSubmit={this.handelSubmit} />
-        {/* <ToastContainer /> */}
-        {!!images.length && (
-          <ImageGallery openModal={this.openModal} images={this.state.images} />
-        )}
+        <ToastContainer />
+        <ImageGallery openModal={this.openModal} images={this.state.images} status={this.state.status}/>
         {totalHits && totalHits >= page * 12 && (
           <Button handelLoadMore={this.handelLoadMore} />
         )}

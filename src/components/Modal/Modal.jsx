@@ -19,7 +19,6 @@ export class Modal extends Component {
 		}
 	}
 	render() {
-		console.log(this.props.imgBigItem);
 		const { imgBigItem } = this.props;
   	return (
     		<div className="Overlay">

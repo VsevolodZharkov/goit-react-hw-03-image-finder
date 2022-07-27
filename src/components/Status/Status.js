@@ -1,6 +1,6 @@
 export const STATUS = {
 	Idle: 'idle',
-	Loadind: 'loading',
+	Loading: 'loading',
 	Error: 'error',
 	Success: 'success'
 }

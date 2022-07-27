@@ -1,5 +1,5 @@
 import { Component } from 'react';
-
+import { toast } from 'react-toastify';
 export class Searchbar extends Component {
   state = {
 		query: '',
@@ -10,6 +10,10 @@ export class Searchbar extends Component {
 	}
 	handelSubmit = event => {
 		event.preventDefault();
+		if(this.state.query.trim() === ''){
+			toast.error('Fill input')
+			return 
+		}
 		const { onSubmit } = this.props;
 		onSubmit(this.state.query)
 	}
@@ -29,8 +33,6 @@ export class Searchbar extends Component {
 						onChange={this.handeleChange}
             className="SearchForm-input"
             type="text"
-            // autocomplete="off"
-            // autofocus
             placeholder="Search images and photos"
           />
         </form>
