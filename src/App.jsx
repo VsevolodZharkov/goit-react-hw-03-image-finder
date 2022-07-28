@@ -22,37 +22,34 @@ export class App extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query 
-			|| prevState.page !== this.state.page 
+			// || prevState.page !== this.state.page 
 			) {
       this.setState({ status: STATUS.Loading });
 
       Fetch( this.state.query, this.state.page )
-        .then(responce => {
-          this.setState(prevState => ({
-						images: [...prevState.images, ...responce.hits],
+        .then(data => {
+          this.setState({
+            images: data.hits,
             status: STATUS.Success,
-            totalHits: responce.totalHits,
-						})
-          );
+            totalHits: data.totalHits,
+          });
         })
-        .catch(() => {
+        .catch((error) => {
           this.setState({ status: STATUS.Error });
         })
     }
   }
 
 	handelLoadMore = () => {
-    // Fetch(this.state.query, this.state.page + 1)
-		// .then(responce => {
-    //   this.setState(prevState => ({
-    //     images: [...prevState.images, ...responce.hits],
-    //   }))
-		// 	.catch(() => {
-		// 		this.setState({ status: STATUS.Error });
-		// 	});
-    // });
-		// this.state.page += 1;
-		// this.setState({page: this.state.page})
+    Fetch(this.state.query, this.state.page + 1)
+		.then(responce => {
+      this.setState(prevState => ({
+        images: [...prevState.images, ...responce.hits],
+      }))
+			.catch(() => {
+				this.setState({ status: STATUS.Error });
+			});
+    });
 		this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
@@ -69,11 +66,7 @@ export class App extends Component {
   onClose = () => {
     this.setState(prevDtate => ({ isOpen: !prevDtate.isOpen }));
   };
-	
-  // handelImagesTake = () => {
-  //   const { getImages } = this.props;
-  //   getImages(this.state.images);
-  // };
+
  
   render() {
     const { page, totalHits, isOpen, status } = this.state;
