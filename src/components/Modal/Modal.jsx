@@ -14,7 +14,10 @@ export class Modal extends Component {
 	}
 	
 	handelCloseModal = (event) => {
-		if(event.code === 'Escape' || event.target.className === 'Overlay') {
+		if(event.code === 'Escape' || 
+		// event.target.className === 'Overlay'
+		event.target === event.currentTarget
+		) {
 			this.props.onClose();
 		}
 	}
