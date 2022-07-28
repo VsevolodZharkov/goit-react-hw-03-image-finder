@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
-import style from '../Searchbar/Searchbar.module.css'
+import Style from '../../components/Searchbar/Searchbar.module.css'
 export class Searchbar extends Component {
   state = {
 		query: '',
@@ -21,19 +21,19 @@ export class Searchbar extends Component {
 	}
 	render() {
     return (
-      <header className={Searchbar}>
-        <form className={SearchForm}>
+      <header className={Style.Searchbar}>
+        <form className={Style.SearchForm}>
           <button
             type="submit"
-            className={SearchFormButton}
+            className={Style.SearchFormButton}
             onClick={this.handelSubmit}
           >
-            <span class="button-label">Search</span>
+            <span class={Style.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
 						onChange={this.handeleChange}
-            className={SearchForm-input}
+            className={Style.SearchFormInput}
             type="text"
             placeholder="Search images and photos"
           />

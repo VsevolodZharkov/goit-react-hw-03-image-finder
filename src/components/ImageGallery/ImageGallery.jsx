@@ -1,16 +1,16 @@
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-import style from '../ImageGallery/ImageGallery.module.css';
 import { Spiner } from '../Loader/Loader';
 import { STATUS } from '../Status/Status';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import Style from '../../components/ImageGallery/ImageGallery.module.css'
 
 export class ImageGallery extends Component {
 	
   render() {
     const { status } = this.props;
     if (status === STATUS.Idle) {
-      return <p className={style.TextForUser}>Enter which photos you are interested in.</p>
+      return <p className={Style.TextForUser}>Enter which photos you are interested in.</p>
     }
 
     if (status === STATUS.Loading) {
@@ -22,12 +22,12 @@ export class ImageGallery extends Component {
     }
 
     if (status === STATUS.Error) {
-      return <p className={style.TextForUserError}>Error!</p>;
+      return <p className={Style.TextForUserError}>Error!</p>;
     }
 
     return (
       <>
-        <ul className={style.ImageGallery}>
+        <ul className={Style.ImageGallery}>
           {this.props.images.map(image => {
             return (
               <ImageGalleryItem
