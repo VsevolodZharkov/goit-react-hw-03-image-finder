@@ -7,23 +7,23 @@ export class Searchbar extends Component {
 		query: '',
 	}
 
-	// clearQuery = () => {
-	// 	this.setState({query: ''})
-	// 	document.getElementById('form').reset();
-	// }
+	clearQuery = () => {
+		this.setState({query: ''})
+		document.getElementById('form').reset();
+	}
 
 	handeleChange = event => {
 		this.setState({query: event.target.value})
 	}
 	handelSubmit = event => {
 		event.preventDefault();
-		// if(this.state.query.trim() === ''){
-		// 	toast.error('Fill input')
-		// 	return 
-		// }
+		if(this.state.query.trim() === ''){
+			toast.error('Fill input')
+			return 
+		}
 		const { onSubmit } = this.props;
 		onSubmit(this.state.query)
-		// this.clearQuery()
+		this.clearQuery()
 	}
 	
 	render() {
