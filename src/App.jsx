@@ -3,10 +3,9 @@ import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Modal } from './components/Modal/Modal';
 import { Component } from 'react';
 import { Button } from './components/Button/Button';
-import { STATUS } from './components/Status/Status';
+import { STATUS } from './Status/Status';
 import { ToastContainer } from 'react-toastify';
-import { Fetch } from 'components/Fecth/Fetch';
-import PropTypes from 'prop-types';
+import { Fetch } from './Fecth/Fetch';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,7 +17,7 @@ export class App extends Component {
     status: STATUS.Idle,
     page: 1,
     totalHits: null,
-		imgBigItem: '',
+		imgBigItem: {},
   };
   handelSubmit = query => {
     this.setState({ query });
@@ -86,9 +85,4 @@ export class App extends Component {
       </div>
     );
   }
-}
-App.propsTypes = {
-	query: PropTypes.string.isRequired,
-	images: PropTypes.arrayOf(PropTypes.object.isRequired),
-	status: PropTypes.string.isRequired,
 }

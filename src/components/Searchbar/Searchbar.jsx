@@ -6,7 +6,11 @@ export class Searchbar extends Component {
   state = {
 		query: '',
 	}
-	
+
+	// clearQuery = () => {
+	// 	this.setState({query: ''})
+	// }
+
 	handeleChange = event => {
 		this.setState({query: event.target.value})
 	}
@@ -18,7 +22,9 @@ export class Searchbar extends Component {
 		}
 		const { onSubmit } = this.props;
 		onSubmit(this.state.query)
+		// this.clearQuery()
 	}
+	
 	render() {
     return (
       <header className={Style.Searchbar}>
@@ -43,6 +49,5 @@ export class Searchbar extends Component {
   }
 }
 Searchbar.propsTypes = {
-	query: PropTypes.string.isRequired,
 	onSubmit: PropTypes.func.isRequired,
 }
