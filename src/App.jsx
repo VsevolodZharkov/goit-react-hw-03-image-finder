@@ -17,16 +17,17 @@ export class App extends Component {
     status: STATUS.Idle,
     page: 1,
     totalHits: null,
-		imgBigItem: {},
+    imgBigItem: {},
   };
 
-	componentDidUpdate(prevProps, prevState) {
-    if (prevState.query !== this.state.query 
-			// || prevState.page !== this.state.page 
-			) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.query !== this.state.query
+      // || prevState.page !== this.state.page
+    ) {
       this.setState({ status: STATUS.Loading });
 
-      Fetch( this.state.query, this.state.page )
+      Fetch(this.state.query, this.state.page)
         .then(data => {
           this.setState({
             images: data.hits,
@@ -34,40 +35,36 @@ export class App extends Component {
             totalHits: data.totalHits,
           });
         })
-        .catch((error) => {
+        .catch(() => {
           this.setState({ status: STATUS.Error });
-        })
+        });
     }
   }
 
-	handelLoadMore = () => {
-    Fetch(this.state.query, this.state.page + 1)
-		.then(responce => {
-      this.setState(prevState => ({
-        images: [...prevState.images, ...responce.hits],
-      }))
-			.catch(() => {
-				this.setState({ status: STATUS.Error });
-			});
+  handelLoadMore = () => {
+    Fetch(this.state.query, this.state.page + 1).then(responce => {
+      this.setState(ps => ({
+        images: [...ps.images, ...responce.hits],
+      })).catch(() => {
+        this.setState({ status: STATUS.Error });
+      });
     });
-		this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   handelSubmit = query => {
-    this.setState({ query , page: 1});
+    this.setState({ query, page: 1 });
   };
 
-  openModal = (imgBig) => {
+  openModal = imgBig => {
     this.setState(prevDtate => ({ isOpen: !prevDtate.isOpen }));
-		this.setState(({ imgBigItem: imgBig }));
-
+    this.setState({ imgBigItem: imgBig });
   };
 
   onClose = () => {
     this.setState(prevDtate => ({ isOpen: !prevDtate.isOpen }));
   };
 
- 
   render() {
     const { page, totalHits, isOpen, status } = this.state;
 
@@ -75,11 +72,20 @@ export class App extends Component {
       <div>
         <Searchbar onSubmit={this.handelSubmit} />
         <ToastContainer />
-        <ImageGallery openModal={this.openModal} images={this.state.images} status={this.state.status}/>
-        {(status === STATUS.Loading) ? '' : !!totalHits && totalHits >= page * 12 && (
-          <Button handelLoadMore={this.handelLoadMore} />
+        <ImageGallery
+          openModal={this.openModal}
+          images={this.state.images}
+          status={this.state.status}
+        />
+        {status === STATUS.Loading
+          ? ''
+          : !!totalHits &&
+            totalHits >= page * 12 && (
+              <Button handelLoadMore={this.handelLoadMore} />
+            )}
+        {isOpen && (
+          <Modal imgBigItem={this.state.imgBigItem} onClose={this.onClose} />
         )}
-        {isOpen && <Modal imgBigItem={this.state.imgBigItem} onClose={this.onClose} />}
       </div>
     );
   }
