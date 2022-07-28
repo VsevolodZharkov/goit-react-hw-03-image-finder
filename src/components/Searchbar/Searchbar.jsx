@@ -7,9 +7,10 @@ export class Searchbar extends Component {
 		query: '',
 	}
 
-	// clearQuery = () => {
-	// 	this.setState({query: ''})
-	// }
+	clearQuery = () => {
+		this.setState({query: ''})
+		document.getElementById('form').reset();
+	}
 
 	handeleChange = event => {
 		this.setState({query: event.target.value})
@@ -22,13 +23,13 @@ export class Searchbar extends Component {
 		}
 		const { onSubmit } = this.props;
 		onSubmit(this.state.query)
-		// this.clearQuery()
+		this.clearQuery()
 	}
 	
 	render() {
     return (
       <header className={Style.Searchbar}>
-        <form className={Style.SearchForm}>
+        <form className={Style.SearchForm} id='form'>
           <button
             type="submit"
             className={Style.SearchFormButton}

@@ -78,7 +78,7 @@ export class App extends Component {
         <Searchbar onSubmit={this.handelSubmit} />
         <ToastContainer />
         <ImageGallery openModal={this.openModal} images={this.state.images} status={this.state.status}/>
-        {totalHits && totalHits >= page * 12 && (
+        {!!totalHits && totalHits >= page * 12 && (
           <Button handelLoadMore={this.handelLoadMore} />
         )}
         {isOpen && <Modal imgBigItem={this.state.imgBigItem} onClose={this.onClose} />}
