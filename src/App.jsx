@@ -5,9 +5,10 @@ import { Component } from 'react';
 import { Button } from './components/Button/Button';
 import { STATUS } from './Status/Status';
 import { ToastContainer } from 'react-toastify';
-import { Fetch } from './Fecth/Fetch';
+import { fetch } from './Fecth/Fetch';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+const KEY = '28344913-175486e0517d92fb48d77b40d';
 
 export class App extends Component {
   state = {
@@ -20,7 +21,7 @@ export class App extends Component {
 		imgBigItem: {},
   };
   handelSubmit = query => {
-    this.setState({ query });
+    this.setState({ query , page: 1});
   };
 
   openModal = (imgBig) => {
@@ -32,42 +33,61 @@ export class App extends Component {
   onClose = () => {
     this.setState(prevDtate => ({ isOpen: !prevDtate.isOpen }));
   };
+	fetchFilm = (  query, page  ) => {
+		console.log(query);
+		console.log(page);
 
-  handelImagesTake = () => {
-    const { getImages } = this.props;
-    getImages(this.state.images);
-  };
+		return fetch(
+			`https://pixabay.com/api/?key=28344913-175486e0517d92fb48d77b40d&q=${query}&page=${page}&image_type=photo&orientation=horizontal&per_page=12`
+		)
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+			})
+	}
+  // handelImagesTake = () => {
+  //   const { getImages } = this.props;
+  //   getImages(this.state.images);
+  // };
 	
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.query !== this.state.query) {
-      this.setState({ status: STATUS.Loading });
+		console.log(prevState.query === this.state.query );
+		console.log(prevState.page === this.state.page );
+		console.log(prevState.query);
+		console.log(this.state.query);
 
-      Fetch(this.state.query, this.setState(({page: 1})))
-        .then(data => {
-          this.setState({
-            images: data.hits,
-            status: STATUS.Success,
-            totalHits: data.totalHits,
-          });
-        })
-        .catch(() => {
-          this.setState({ status: STATUS.Error });
-        })
+    if (prevState.query !== this.state.query || prevState.page !== this.state.page ) {
+			this.fetchFilm(this.state.query, this.state.page)
+			// console.log(1);
+      // this.setState({ status: STATUS.Loading });
+    //   fetch( this.state.query, this.state.page )
+    //     .then(data => {
+		// 			console.log(data);
+    //       this.setState({
+    //         images: data.hits,
+    //         status: STATUS.Success,
+    //         totalHits: data.totalHits,
+    //       });
+    //     })
+    //     .catch(() => {
+    //       this.setState({ status: STATUS.Error });
+    //     })
     }
   }
 
   handelLoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
-
-    Fetch(this.state.query, this.state.page + 1)
-		.then(responce => {
-      this.setState(prevState => ({
-        images: [...prevState.images, ...responce.hits],
-      }))
-			.catch(() => {
-				this.setState({ status: STATUS.Error });
-			});
-    });
+    // fetch(this.state.query, this.state.page + 1)
+		// .then(responce => {
+    //   this.setState(prevState => ({
+    //     images: [...prevState.images, ...responce.hits],
+    //   }))
+		// 	.catch(() => {
+		// 		this.setState({ status: STATUS.Error });
+		// 	});
+    // });
+		// this.state.page += 1;
+		// this.setState({page: this.state.page})
+		this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
