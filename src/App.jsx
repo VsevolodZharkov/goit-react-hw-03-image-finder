@@ -42,14 +42,16 @@ export class App extends Component {
   }
 
   handelLoadMore = () => {
-    Fetch(this.state.query, this.state.page + 1).then(responce => {
-      this.setState(ps => ({
+		this.setState(prevState => ({ page: prevState.page + 1 }));
+    Fetch(this.state.query, this.state.page + 1)
+		.then(responce => { this.setState(ps => ({
         images: [...ps.images, ...responce.hits],
-      })).catch(() => {
-        this.setState({ status: STATUS.Error });
-      });
-    });
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+      }))
+    })
+		.catch(() => {
+			this.setState({ status: STATUS.Error });
+		});
+   
   };
 
   handelSubmit = query => {

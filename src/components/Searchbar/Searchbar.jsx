@@ -35,7 +35,7 @@ export class Searchbar extends Component {
             className={Style.SearchFormButton}
             onClick={this.handelSubmit}
           >
-            <span class={Style.SearchFormButtonLabel}>Search</span>
+            <span className={Style.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
